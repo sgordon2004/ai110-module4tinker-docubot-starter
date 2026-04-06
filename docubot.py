@@ -124,7 +124,10 @@ class DocuBot:
             w.strip(string.punctuation)
             for w in query.lower().split()
             if w.strip(string.punctuation) not in STOP_WORDS]
-        text_words = set(w.strip(string.punctuation) for w in text.lower().split())
+        text_words = set()
+        for w in text.lower().split():
+            parts = w.strip(string.punctuation).replace("_", " ").split()
+            text_words.update(parts)
         return sum(
             1 for word in query_words
             if any(word in tw or tw.startswith(word) for tw in text_words)
